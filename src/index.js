@@ -1,17 +1,28 @@
 module.exports = function check(str, bracketsConfig) {
   let arrStak = [];
   let aStr = {};
+  let sameKeyVal = {};
+  let countSameBrackets = 0;
+  
   bracketsConfig.forEach(elem => {
     let key = elem[0].toString()
     let value = elem[1]
     aStr[key]=value
-    }) 
+    if(key === value) {
+      sameKeyVal[key]=value 
+    }
+    })
 
   for(let bracket of str) {
     if(bracket in aStr) {
-      arrStak.push(bracket)
+      if(bracket in sameKeyVal){
+        countSameBrackets ++
+        } else {
+          arrStak.push(bracket)
+          }
+      
     } else {
-      if(arrStak.length == 0) {
+      if(arrStak.length === 0) {
         return false
       }
     
@@ -24,5 +35,9 @@ module.exports = function check(str, bracketsConfig) {
         }
     }
   }
-  return arrStak.length == 0
+  if(arrStak.length === 0 && countSameBrackets % 2 ==0){
+    return true
+    }else{
+      return false
+      }
 }
